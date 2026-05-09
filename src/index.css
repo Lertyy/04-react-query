@@ -1,3 +1,4 @@
+@import 'modern-normalize/modern-normalize.css';
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -121,7 +122,6 @@ body {
 * {
   box-sizing: border-box;
 
-@import 'modern-normalize/modern-normalize.css';
 
 /* Base styles */
 body {

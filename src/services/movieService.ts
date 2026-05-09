@@ -1,37 +1,29 @@
 import axios from "axios";
-import type { MoviesResponse } from "../types/movie";
+import type { Movie } from "../types/movie";
 
-const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const TMDB_BASE_URL = "https://api.themoviedb.org/3";
-
-if (!TMDB_API_KEY) {
-  console.error("TMDB API key is not set. Please check .env file");
+export interface MovieResponse {
+  results: Movie[];
+  total_pages: number;
 }
 
-const apiClient = axios.create({
-  baseURL: TMDB_BASE_URL,
+const TOKEN = import.meta.env.VITE_TMDB_TOKEN;
+
+const axiosInstance = axios.create({
+  baseURL: "https://api.themoviedb.org/3",
+  headers: {
+    Authorization: `Bearer ${TOKEN}`,
+  },
+  params: {
+    language: "en-US",
+  },
 });
 
-export const getMovies = async (
+export const fetchMovies = async (
   query: string,
-  page: number = 1
-): Promise<MoviesResponse> => {
-  if (!query.trim()) {
-    return {
-      results: [],
-      total_pages: 0,
-      total_results: 0,
-      page: 1,
-    };
-  }
-
-  const response = await apiClient.get<MoviesResponse>("/search/movie", {
-    params: {
-      api_key: TMDB_API_KEY,
-      query,
-      page,
-    },
+  page: number
+): Promise<MovieResponse> => {
+  const { data } = await axiosInstance.get<MovieResponse>("/search/movie", {
+    params: { query, page },
   });
-
-  return response.data;
+  return data;
 };

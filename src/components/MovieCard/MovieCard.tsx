@@ -5,17 +5,11 @@ interface MovieCardProps {
   movie: Movie;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard = ({ movie }: MovieCardProps) => {
   return (
-    <div className={css.card}>
-      <div className={css.poster}>
-        <p>Постер</p>
-      </div>
-      <div className={css.info}>
-        <h3 className={css.title}>{movie.title}</h3>
-        <p className={css.year}>{movie.release_date?.split("-")[0] || "N/A"}</p>
-      </div>
-    </div>
+    <li className={css.card}>
+      <h3>{movie.title}</h3>
+    </li>
   );
 };
 
